@@ -1,0 +1,36 @@
+2022-10-03 23:49:31,412 INFO - Creating GCBM input database
+2022-10-03 23:49:31,912 INFO - Loading 1 of 34: CBM Classic Spatial DDL.
+2022-10-03 23:49:31,946 INFO - Loading 2 of 34: Accounting rule types.
+2022-10-03 23:49:31,960 INFO - Loading 3 of 34: Disturbance categories.
+2022-10-03 23:49:31,966 INFO - Loading 4 of 34: Static land class data.
+2022-10-03 23:49:31,967 INFO - Loading 5 of 34: Static pool data.
+2022-10-03 23:49:31,975 INFO - Loading 6 of 34: Root parameters.
+2022-10-03 23:49:31,983 INFO - Loading 7 of 34: DOM pools.
+2022-10-03 23:49:31,987 INFO - Loading 8 of 34: Static pool data.
+2022-10-03 23:49:32,035 INFO - Loading 9 of 34: Admin regions.
+2022-10-03 23:49:32,054 INFO - Loading 10 of 34: Eco regions.
+2022-10-03 23:49:32,060 INFO - Loading 11 of 34: Decay (DOM) parameters.
+2022-10-03 23:49:32,061 INFO - Loading 12 of 34: Disturbance types.
+2022-10-03 23:49:32,076 INFO - Loading 13 of 34: Stump parameters.
+2022-10-03 23:49:32,096 INFO - Loading 14 of 34: Turnover parameters.
+2022-10-03 23:49:32,101 INFO - Loading 15 of 34: Admin boundaries.
+2022-10-03 23:49:32,101 INFO - Loading 16 of 34: Eco boundaries.
+2022-10-03 23:49:32,111 INFO - Loading 17 of 34: Spinup parameters.
+2022-10-03 23:49:32,117 INFO - Loading 18 of 34: Spatial units.
+2022-10-03 23:49:32,129 INFO - Loading 19 of 34: Species types.
+2022-10-03 23:49:32,134 INFO - Loading 20 of 34: Disturbance matrix names.
+2022-10-03 23:49:32,142 INFO - Loading 21 of 34: Disturbance matrix values.
+2022-10-03 23:49:32,523 INFO - Loading 22 of 34: Disturbance matrix associations.
+2022-10-03 23:49:33,515 INFO - Loading 23 of 34: Forest types.
+2022-10-03 23:49:33,515 INFO - Loading 24 of 34: Genus types.
+2022-10-03 23:49:33,515 INFO - Loading 25 of 34: Species types.
+2022-10-03 23:49:33,530 INFO - Loading 26 of 34: Volume to biomass parameters.
+2022-10-03 23:49:33,562 INFO - Loading 27 of 34: Volume to biomass parameter associations.
+2022-10-03 23:49:34,084 INFO - Loading 28 of 34: Growth multiplier series.
+2022-10-03 23:49:34,103 INFO - Loading 29 of 34: Growth multiplier values.
+2022-10-03 23:49:34,109 INFO - Loading 30 of 34: Growth multiplier associations.
+2022-10-03 23:49:34,118 INFO - Loading 31 of 34: Turnover parameters.
+2022-10-03 23:49:34,142 INFO - Loading 32 of 34: Classifier: LifeZone.
+2022-10-03 23:49:34,165 INFO - Loading 33 of 34: Growth curves.
+2022-10-03 23:49:34,199 INFO - Loading 34 of 34: Disturbance type categories.
+2022-10-03 23:49:34,211 INFO - Finished.
