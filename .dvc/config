@@ -1,0 +1,7 @@
+[core]
+    remote = gcbm_logs
+['remote "gcbm_logs"']
+    url = gdrive://17Ef_mOvbWtY7wdp1o9WwzsGbQH_nSkza
+['remote "processed_output"']
+    url = gdrive://1xXQGus0NJB6bRTasUPACxQmoAPd1QeET
+    
