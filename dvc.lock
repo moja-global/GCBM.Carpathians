@@ -1,0 +1,271 @@
+schema: '2.0'
+stages:
+  tiler:
+    cmd: echo.| process_spatial_layers.bat
+    deps:
+    - path: ../tools/Tiler/tiler.py
+      md5: bf45eeb791e49a20914d96c465ffc33a
+      size: 4327
+    - path: raw/environment
+      md5: 5f5f16344c5528b66b51430b0ad8a53f.dir
+      size: 112009
+      nfiles: 2
+    - path: raw/inventory
+      md5: efdd5481cdb2fdd51a62832a08ce5ae9.dir
+      size: 97417
+      nfiles: 5
+    outs:
+    - path: ../logs/tiler_log.txt
+      md5: 08ccf6ca8327ab68266d92a9602970b1
+      size: 289
+  recliner2gcbm_x64:
+    cmd: echo.| run_recliner2gcbm.bat
+    deps:
+    - path: ../logs/tiler_log.txt
+      md5: 08ccf6ca8327ab68266d92a9602970b1
+      size: 289
+    - path: ../tools/recliner2gcbm-x64/recliner2gcbm.exe
+      md5: a45c702ad1c9aff92edc6493cff99450
+      size: 6656
+    - path: ArchiveIndex_Beta_Install.mdb
+      md5: 9b2d736fff420a077e08f9ff00802af6
+      size: 3817472
+    - path: Growth_Curves.csv
+      md5: 865daf88474e6cb9f04524ea673eb539
+      size: 19415
+    - path: gcbm_input.db
+      md5: 1b814815bf13da736ac194b7adae4545
+      size: 1536000
+    - path: recliner2gcbm_config.json
+      md5: 61351afc14f468a344c475705e6578ff
+      size: 6251
+    outs:
+    - path: ../logs/recliner_log.log
+      md5: 53768f58ab154111f79775364587d429
+      size: 1410
+  update_gcbm_configuration:
+    cmd: echo.| update_gcbm_configuration.bat
+    deps:
+    - path: ../input_database/gcbm_input.db
+      md5: 1b814815bf13da736ac194b7adae4545
+      size: 1536000
+    - path: ../layers/tiled
+      md5: 1dde42b857605e2da31659a3b3ea6620.dir
+      size: 73166
+      nfiles: 8
+    - path: ../logs/recliner_log.log
+      md5: 53768f58ab154111f79775364587d429
+      size: 1410
+    - path: ../tools/tiler/update_gcbm_config.py
+      md5: 3e04cbc0ee3588cc13f711750b8cda1e
+      size: 18002
+    - path: templates
+      md5: d872ca059781e4cb4a77e9c0e17915c3.dir
+      size: 60895
+      nfiles: 8
+    - path: update_gcbm_configuration.bat
+      md5: 357408ed6c55d8b0cf29a6fa4eb5c28c
+      size: 1023
+    outs:
+    - path: ../logs/update_gcbm_config.log
+      md5: d4d51a6212ce2b67195492ce56b0e10f
+      size: 702
+  run_gcbm:
+    cmd: echo.| run_gcbm.bat
+    deps:
+    - path: ../input_database/gcbm_input.db
+      md5: 1b814815bf13da736ac194b7adae4545
+      size: 1536000
+    - path: ../layers/tiled/LifeZone_moja.tiff
+      md5: a93766233a930f5c1dd6c5dcbf6f4d85
+      size: 7822
+    - path: ../layers/tiled/mean_annual_temperature_moja.tiff
+      md5: 9444ba5aa3d50653775dc8097eb8a265
+      size: 49421
+    - path: ../logs/update_gcbm_config.log
+      md5: d4d51a6212ce2b67195492ce56b0e10f
+      size: 702
+    - path: ../tools/GCBM/moja.cli.exe
+      md5: 22ea736fd836612c2d9a8330572cdcff
+      size: 125440
+    - path: gcbm_config.cfg
+      md5: 4ba9c157d6b3d8462bae8be993063fcc
+      size: 176
+    - path: internal_variables.json
+      md5: 84528ca440ad67d5e473ee5b6dc06553
+      size: 943
+    - path: localdomain.json
+      md5: 38c21accf7af137c75a537de3e31b9dd
+      size: 8886
+    - path: modules_cbm.json
+      md5: 007b877fb2df64b67d06c3f8e234d833
+      size: 1562
+    - path: modules_output.json
+      md5: 572b5ca282fe26171fcca0cb1f90d897
+      size: 38724
+    - path: output/gcbm_output.db
+      md5: 9cb08922772cbb6e44dbbbf01fdf7a5b
+      size: 249856
+    - path: pools_cbm.json
+      md5: b561bd8961d20c9c8fd3ef457b79d7b1
+      size: 986
+    - path: provider_config.json
+      md5: 5e2d7a51341de83dc259ffecda8d2dcc
+      size: 978
+    - path: run_gcbm.bat
+      md5: 87e19cfc778d1f9f6dba32cd63a9f0ea
+      size: 818
+    - path: spinup.json
+      md5: 84f240eaf2aa9100948e63712bd7ee0a
+      size: 2139
+    - path: variables.json
+      md5: 9d192270d5a227e6ecb7cf9ae8543620
+      size: 15464
+    outs:
+    - path: ../logs/Moja_Debug.log
+      md5: 6985a11494093a1b21565772f31450da
+      size: 1664212
+  create_tiffs:
+    cmd: create_tiffs.bat
+    deps:
+    - path: ..\..\gcbm_project\output
+      md5: d0dae9f655a70d9461148e7099288120.dir
+      size: 1085397
+      nfiles: 1121
+    - path: ..\..\logs\Moja_Debug.log
+      md5: abe5f7c1bf95e669cf3f3cf585e7a619
+      size: 1664190
+    - path: create_tiffs.bat
+      md5: b2db383968c07c559a29e00ef1debac9
+      size: 1019
+    - path: create_tiffs.py
+      md5: 24fe644eb30b67b82ea38f3c6e6211ad
+      size: 5675
+    outs:
+    - path: ..\..\logs\create_tiffs.log
+      md5: ec63ab8c2e644a3aa2bebac032b2299b
+      size: 15633
+    - path: ..\..\processed_output\spatial
+      md5: 3e05ae40b00046e6b592f1c2102756f0.dir
+      size: 43828971
+      nfiles: 231
+  compile_results:
+    cmd: echo.| CompileGCBMResults.bat
+    deps:
+    - path: ../../gcbm_project/output/gcbm_output.db
+      md5: 057f4fc43fa27bf75dc07ccfa1f946a9
+      size: 720896
+    - path: ../../logs/create_tiffs.log
+      md5: 4ac8cf584df853bbdbaed84912bc32d9
+      size: 15693
+    - path: ../../processed_output/compiled_gcbm_output.db
+      md5: 01359a658dcab03697668cad91f96762
+      size: 413696
+    - path: compileGCBMResults.bat
+      md5: 495d2830357c57c216242c7d1233c266
+      size: 536
+    - path: compileresults.json
+      md5: c1664af923128ae8641b521fc330f439
+      size: 17854
+    - path: compileresults.py
+      md5: 0828e025ddfebab9dd1820485807539a
+      size: 14182
+    outs:
+    - path: ../../logs/compile_results.log
+      md5: 0431299ca90da31ac244ff7728666799
+      size: 1656
+  postprocessing:
+    cmd: "Rscript Summarize_DOM_Stocks.R\npython create_metrics.py\n"
+    deps:
+    - path: ../Standalone_GCBM/logs/compile_results.log
+      md5: 0431299ca90da31ac244ff7728666799
+      size: 1656
+    - path: ../Standalone_GCBM/processed_output/compiled_gcbm_output.db
+      md5: 01359a658dcab03697668cad91f96762
+      size: 413696
+    - path: Summarize_DOM_Stocks.R
+      md5: 2973b839d724e4e26c2f40379b00403c
+      size: 6980
+    - path: Tables
+      md5: 3f03761e2975d7f410bedd4e96231bc2.dir
+      size: 34806
+      nfiles: 4
+    - path: create_metrics.py
+      md5: c06a59dce2c4c4ff680c77c3482ac4c5
+      size: 1180
+    outs:
+    - path: Figures/Carpathians_Sensitivity_BorealWet.png
+      md5: 3963c5830efcd8ec86e10a65f241b5e0
+      size: 82156
+    - path: Figures/Carpathians_Sensitivity_CoolTemperateMoist.png
+      md5: ee590d257c180cde5c0c390b72471dd4
+      size: 83055
+    - path: Figures/Carpathians_Sensitivity_CoolTemperateSteppe.png
+      md5: 61d5696658e280fb5e695021433240f9
+      size: 82555
+    - path: Figures/Carpathians_Sensitivity_CoolTemperateWet.png
+      md5: d802bf0582f4f58a14e042551e5bb5f5
+      size: 83197
+    - path: Figures/Carpathians_Sensitivity_PolarRainTundra.png
+      md5: a3192f831f60e96af244a37e92b84966
+      size: 82184
+    - path: Metrics/Boreal_wet-Deadwood.json
+      md5: a93e6d7eb24ce95f1176b49c1a4a5da1
+      size: 127
+    - path: Metrics/Boreal_wet-Litter.json
+      md5: 2966b6b3ad417338bafc991bcdbaaf7d
+      size: 127
+    - path: Metrics/Boreal_wet-Soil_Carbon.json
+      md5: 94d4cc3581545ad91e4ee634be8dc653
+      size: 126
+    - path: Metrics/Boreal_wet-Total_Biomass.json
+      md5: 79dde2c88c6384aef498ac0a21412ad8
+      size: 127
+    - path: Metrics/Cool_temperate_moist-Deadwood.json
+      md5: a690d1a185969f0f72b3b486ef7277dc
+      size: 134
+    - path: Metrics/Cool_temperate_moist-Litter.json
+      md5: 9c1b0264c215b3453f2e49b94bee8f26
+      size: 134
+    - path: Metrics/Cool_temperate_moist-Soil_Carbon.json
+      md5: 1fe6801c68739031b504fcdc489a63fb
+      size: 134
+    - path: Metrics/Cool_temperate_moist-Total_Biomass.json
+      md5: 096c779a4f3d6d7247a2685496a9d743
+      size: 133
+    - path: Metrics/Cool_temperate_steppe-Deadwood.json
+      md5: a0e05a7774b01184ce1da2313f26b00b
+      size: 118
+    - path: Metrics/Cool_temperate_steppe-Litter.json
+      md5: 60eb4a72926fdece0276c199c93c1b78
+      size: 117
+    - path: Metrics/Cool_temperate_steppe-Soil_Carbon.json
+      md5: 9033181dc655e3f2de60f19eba172065
+      size: 118
+    - path: Metrics/Cool_temperate_steppe-Total_Biomass.json
+      md5: b800a91721127b6ce13db8df0bfbc796
+      size: 116
+    - path: Metrics/Cool_temperate_wet-Deadwood.json
+      md5: bc4ff6b4162a0ea9a1c1bffaa3ba3574
+      size: 126
+    - path: Metrics/Cool_temperate_wet-Litter.json
+      md5: d94078effed2e6b18d5d133f0d1647d6
+      size: 119
+    - path: Metrics/Cool_temperate_wet-Soil_Carbon.json
+      md5: 115fd2eab5eea9fd0d0a11f40e401b43
+      size: 120
+    - path: Metrics/Cool_temperate_wet-Total_Biomass.json
+      md5: dcbee97d634228a8fd1a332f3a915bb0
+      size: 124
+    - path: Metrics/Polar_rain_tundra-Deadwood.json
+      md5: 5afe7446e7aba27ad4a1ff1de8641214
+      size: 126
+    - path: Metrics/Polar_rain_tundra-Litter.json
+      md5: d06e749e36da6a0aa908b344460b4785
+      size: 125
+    - path: Metrics/Polar_rain_tundra-Soil_Carbon.json
+      md5: 6b141953d9dfdeeb47989c512d5f5fdd
+      size: 120
+    - path: Metrics/Polar_rain_tundra-Total_Biomass.json
+      md5: 26a6f541bc9d7442ff599bac6cec0730
+      size: 124

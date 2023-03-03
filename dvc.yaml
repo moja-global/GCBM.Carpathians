@@ -1,0 +1,146 @@
+vars:
+  - python_path: python
+  - R_path: Rscript
+
+stages:
+  tiler:
+    cmd: echo.| process_spatial_layers.bat
+    wdir: Standalone_GCBM/layers
+    deps:
+    - ../tools/Tiler/tiler.py
+    - raw/environment
+    - raw/inventory
+    outs:
+    - ../logs/tiler_log.txt
+  recliner2gcbm_x64:
+    cmd: echo.| run_recliner2gcbm.bat
+    wdir: Standalone_GCBM/input_database
+    deps:
+    - ../logs/tiler_log.txt
+    - ../tools/recliner2gcbm-x64/recliner2gcbm.exe
+    - recliner2gcbm_config.json
+    - ArchiveIndex_Beta_Install.mdb
+    - Growth_Curves.csv
+    - gcbm_input.db
+    outs:
+    - ../logs/recliner_log.log
+  update_gcbm_configuration:
+    cmd: echo.| update_gcbm_configuration.bat
+    wdir: Standalone_GCBM/gcbm_project
+    deps:
+    - ../logs/recliner_log.log
+    - update_gcbm_configuration.bat
+    - ../tools/tiler/update_gcbm_config.py
+    - templates
+    - ../layers/tiled
+    - ../input_database/gcbm_input.db
+    outs:
+    - ../logs/update_gcbm_config.log
+  run_gcbm:
+    cmd: echo.| run_gcbm.bat
+    wdir: Standalone_GCBM/gcbm_project
+    deps:
+    - ../logs/update_gcbm_config.log
+    - run_gcbm.bat
+    - ../tools/GCBM/moja.cli.exe
+    - gcbm_config.cfg
+    - localdomain.json
+    - pools_cbm.json
+    - modules_cbm.json
+    - modules_output.json
+    - spinup.json
+    - variables.json
+    - internal_variables.json
+    - provider_config.json
+    - ../layers/tiled/LifeZone_moja.tiff
+    - ../layers/tiled/mean_annual_temperature_moja.tiff
+    - ../input_database/gcbm_input.db
+    - output/gcbm_output.db
+    outs:
+    - ../logs/Moja_Debug.log
+  create_tiffs:
+    cmd: echo.| create_tiffs.bat
+    wdir: Standalone_GCBM/tools/CompileGCBMSpatialOutput
+    deps:
+    - ../../logs/Moja_Debug.log
+    - create_tiffs.bat
+    - create_tiffs.py
+    - ../../gcbm_project/output
+    outs:
+    - ../../logs/create_tiffs.log
+    - ../../processed_output/spatial
+  compile_results:
+    cmd: echo.| CompileGCBMResults.bat
+    wdir: Standalone_GCBM/tools/CompileGCBMResults
+    deps:
+    - ../../gcbm_project/output/gcbm_output.db
+    - ../../logs/create_tiffs.log
+    - ../../processed_output/compiled_gcbm_output.db
+    - compileGCBMResults.bat
+    - compileresults.json
+    - compileresults.py
+    outs:
+    - ../../logs/compile_results.log
+  postprocessing:
+    cmd: |
+      ${R_path} Summarize_DOM_Stocks.R
+      ${python_path} create_metrics.py
+    wdir: Postprocessing
+    deps:
+    - ../Standalone_GCBM/processed_output/compiled_gcbm_output.db
+    - ../Standalone_GCBM/logs/compile_results.log
+    - Summarize_DOM_Stocks.R
+    - create_metrics.py
+    - Tables
+    plots:
+        - Figures/Carpathians_Sensitivity_BorealWet.png:
+            cache: false
+        - Figures/Carpathians_Sensitivity_CoolTemperateMoist.png:
+            cache: false
+        - Figures/Carpathians_Sensitivity_CoolTemperateSteppe.png:
+            cache: false
+        - Figures/Carpathians_Sensitivity_CoolTemperateWet.png:
+            cache: false
+        - Figures/Carpathians_Sensitivity_PolarRainTundra.png:
+            cache: false
+    metrics:
+        - Metrics/Boreal_wet-Deadwood.json:
+            cache: false
+        - Metrics/Boreal_wet-Litter.json:
+            cache: false
+        - Metrics/Boreal_wet-Soil_Carbon.json:
+            cache: false
+        - Metrics/Boreal_wet-Total_Biomass.json:
+            cache: false
+        - Metrics/Cool_temperate_moist-Deadwood.json:
+            cache: false
+        - Metrics/Cool_temperate_moist-Litter.json:
+            cache: false
+        - Metrics/Cool_temperate_moist-Soil_Carbon.json:
+            cache: false
+        - Metrics/Cool_temperate_moist-Total_Biomass.json:
+            cache: false
+        - Metrics/Cool_temperate_steppe-Deadwood.json: 
+            cache: false
+        - Metrics/Cool_temperate_steppe-Litter.json:
+            cache: false
+        - Metrics/Cool_temperate_steppe-Soil_Carbon.json:
+            cache: false
+        - Metrics/Cool_temperate_steppe-Total_Biomass.json:
+            cache: false
+        - Metrics/Cool_temperate_wet-Deadwood.json:
+            cache: false
+        - Metrics/Cool_temperate_wet-Litter.json:
+            cache: false
+        - Metrics/Cool_temperate_wet-Soil_Carbon.json:
+            cache: false
+        - Metrics/Cool_temperate_wet-Total_Biomass.json:
+            cache: false
+        - Metrics/Polar_rain_tundra-Deadwood.json:
+            cache: false
+        - Metrics/Polar_rain_tundra-Litter.json:
+            cache: false
+        - Metrics/Polar_rain_tundra-Soil_Carbon.json:
+            cache: false
+        - Metrics/Polar_rain_tundra-Total_Biomass.json:
+            cache: false

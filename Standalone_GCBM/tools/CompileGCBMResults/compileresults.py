@@ -226,8 +226,9 @@ def copy_reporting_tables(from_conn, from_schema, to_conn, to_schema=None):
                 to_conn.execute(insert(output_table), batch)
         
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout, format="%(asctime)s %(message)s",
-                        datefmt="%m/%d %H:%M:%S")
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s",
+                        datefmt="%m/%d %H:%M:%S", filename=os.path.join('..','..','logs', 'compile_results.log'))
+
 
     parser = ArgumentParser(description="Produce reporting tables from raw GCBM results. For connection strings, "
                                         "see https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls")

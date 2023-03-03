@@ -2,7 +2,7 @@
 
 REM *************************** USER CONFIGURATION ***************************
 REM Set Python path - change this to your Python installation directory.
-set GCBM_PYTHON=C:\Python37
+if "%~1" == "" (set GCBM_PYTHON=C:\Python37) else (set GCBM_PYTHON=%~1)
 REM **************************************************************************
 
 REM Set GDAL library paths.
